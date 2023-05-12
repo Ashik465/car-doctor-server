@@ -71,6 +71,23 @@ async function run() {
         } )
 
 
+        // update order api 
+
+        app.patch('/updateOrder/:id', async(req, res) => {
+
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+           const updatedOrder = req.body;
+            const updateDoc = {
+                $set: {
+                    status: updatedOrder.status 
+                },
+            };
+            const result = await orderCollection.updateOne(query, updateDoc);
+            res.json(result);
+        } )
+
+
     app.get('/services', async(req, res) => {
        
         const cursor = serviceCollection.find();
