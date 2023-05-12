@@ -30,6 +30,32 @@ async function run() {
 
     const serviceCollection = client.db("carDoctor").collection("services");
 
+    const orderCollection = client.db("carDoctor").collection("checkOutOrders");
+
+
+
+    // post api for order
+      
+    app.post('/addOrder', async(req, res) => {
+        const order = req.body;
+        const result = await orderCollection.insertOne(order);
+        res.json(result);
+    })
+
+
+    // get api for order
+
+    app.get('/orders', async(req, res) => {
+
+        const cursor = orderCollection.find();
+        const orders = await cursor.toArray();
+        res.send(orders);
+
+        })
+
+
+
+
     // all services get api 
 
     app.get('/services', async(req, res) => {
