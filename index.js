@@ -116,8 +116,9 @@ async function run() {
     // all services get api
     app.get("/services", async (req, res) => {
       const sort = req.query.sort;
+      const search = req.query.search;
 
-      const cursor = serviceCollection.find();
+      const cursor = serviceCollection.find({ title: { $regex: search, $options: "i" } });
       const services = await cursor.toArray();
 
       services.forEach((service) => {
